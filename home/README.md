@@ -16,6 +16,7 @@ reliability, or cost value the family can feel. No service exists just because i
 ├── docs/
 │   ├── implementation-plan.md       # THE phase plan (single source of truth)
 │   ├── resources.md                 # hardware capacity + constraints
+│   ├── capacity-plan.md             # balanced service load per device (how much juice)
 │   ├── audit.md                     # information/repo/resource audit + fixes
 │   ├── migration.md                 # how/why to move to the dedicated repo
 │   ├── adr/                         # architecture decision records

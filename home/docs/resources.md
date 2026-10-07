@@ -1,6 +1,7 @@
 # Home Lab Resources & Constraints
 
-Single source of truth for hardware capacity, roles, and limits. `as-is-analysis.md` tells the
+Single source of truth for hardware capacity, roles, and limits. For how much we can actually run
+on each device (the balanced service load), see `docs/capacity-plan.md`. `as-is-analysis.md` tells the
 story; this file is the engineering reference. Update this whenever hardware changes.
 
 ## Network
