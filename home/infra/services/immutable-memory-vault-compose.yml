@@ -1,0 +1,35 @@
+# Immutable Memory Vault Service
+# Auto-backup family photos/videos from phones to Synology then to Glacier Deep Archive
+# This service runs a backup verification and synchronization process
+
+version: '3.8'
+
+services:
+  backup-verifier:
+    image: alpine:latest
+    container_name: immutable-memory-vault
+    restart: unless-stopped
+    volumes:
+      - /volume1/home:/home:ro          # Synology home directory (read-only for source)
+      - /volume1/backup:/backup         # Backup destination on Synology
+      - ./scripts/backup-verification.sh:/usr/local/bin/backup-verification.sh:ro
+    environment:
+      - TZ=America/New_York
+      - BACKUP_SOURCE=/home
+      - BACKUP_DEST=/backup
+      - GLACIER_VAULT=family-photos
+      - AWS_ACCESS_KEY_ID_FILE=/run/secrets/aws_access_key_id
+      - AWS_SECRET_ACCESS_KEY_FILE=/run/secrets/aws_secret_access_key
+    secrets:
+      - aws_access_key_id
+      - aws_secret_access_key
+    # Run verification daily at 2 AM
+    entrypoint: ["/usr/local/bin/backup-verification.sh"]
+    # For true automation, we could use a sidecar cron container, but for now assume external trigger.
+    # We'll document that a host cron job triggers this container daily.
+
+secrets:
+  aws_access_key_id:
+    file: ./secrets/aws_access_key_id.txt
+  aws_secret_access_key:
+    file: ./secrets/aws_secret_access_key.txt

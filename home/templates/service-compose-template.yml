@@ -1,0 +1,22 @@
+# Service Template for Home Lab Infrastructure
+# Fill in the specific values for each service
+
+version: '3.8'
+
+services:
+  {{SERVICE_NAME}}:
+    image: {{IMAGE}}
+    container_name: {{SERVICE_NAME}}
+    restart: unless-stopped
+    ports:
+      - "{{HOST_PORT}}:{{CONTAINER_PORT}}"
+    volumes:
+      - {{VOLUME_MOUNTS}}
+    environment:
+      - {{ENVIRONMENT_VARIABLES}}
+    networks:
+      - home-network
+
+networks:
+  home-network:
+    driver: bridge

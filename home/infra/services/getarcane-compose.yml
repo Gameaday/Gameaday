@@ -1,0 +1,22 @@
+# GetArcane Service
+# Orchestration and management dashboard (already deployed and self-managed)
+# This compose file ensures the service is running with desired configuration
+
+version: '3.8'
+
+services:
+  arcane:
+    image: ghcr.io/getarcane/arcane:latest
+    container_name: getarcane
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./arcane-data:/var/lib/arcane
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - ARCANE_HOST=0.0.0.0
+      - ARCANE_PORT=8080
+      - ARCANE_URL=http://sirius.home.lab:8080
+    # Note: Arcane already manages itself and other containers via its API.
+    # This service definition is for desired state tracking only.

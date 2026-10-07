@@ -1,0 +1,61 @@
+# Desired State of Home Lab Services
+# This file is read by Arcane (or a sync process) to know what services should be running
+# Each service corresponds to a docker-compose file in infra/services/
+
+services:
+  - name: immutable-memory-vault
+    description: "Auto-backup family photos/videos to Synology + Glacier"
+    compose_file: "services/immutable-memory-vault-compose.yml"
+    enabled: true
+    namespace: "home"
+    update_strategy: "rolling"
+
+  - name: network-privacy-efficiency-booster
+    description: "Pi-hole equivalent network-wide ad/tracking blocker + local caching proxy"
+    compose_file: "services/network-privacy-efficiency-booster-compose.yml"
+    enabled: true
+    namespace: "home"
+    update_strategy: "rolling"
+
+  - name: communication-reliability-booster
+    description: "Jitsi TURN/STUN server to improve grandparent video call quality"
+    compose_file: "services/communication-reliability-booster-compose.yml"
+    enabled: true
+    namespace: "home"
+    update_strategy: "rolling"
+
+  - name: environmental-early-warning
+    description: "Pi Zero W sensors for temp/humidity/water leak detection with alerts"
+    compose_file: "services/environmental-early-warning-compose.yml"
+    enabled: true
+    namespace: "home"
+    update_strategy: "rolling"
+
+# Existing services we want to ensure are running/maintained
+  - name: getarcane
+    description: "Orchestration and management dashboard"
+    compose_file: "services/getarcane-compose.yml"
+    enabled: true
+    namespace: "infra"
+    update_strategy: "none"  # Already managed by Arcane itself
+
+  - name: traefik
+    description: "Reverse proxy with hot-reloading"
+    compose_file: "services/traefik-compose.yml"
+    enabled: true
+    namespace: "infra"
+    update_strategy: "none"
+
+  - name: jellyfin
+    description: "Media streaming server"
+    compose_file: "services/jellyfin-compose.yml"
+    enabled: true
+    namespace: "media"
+    update_strategy: "rolling"
+
+  - name: dozzle
+    description: "Container monitoring on each device"
+    compose_file: "services/dozzle-compose.yml"
+    enabled: true
+    namespace: "monitoring"
+    update_strategy: "rolling"

@@ -1,0 +1,31 @@
+# Environmental Early Warning System
+# Pi Zero W sensors for temp/humidity/water leak detection with alerts
+
+version: '3.8'
+
+services:
+  sensor-monitor:
+    image: balenalib/raspberry-pi3-python:3.9-buster  # Compatible with Pi Zero W
+    container_name: env-sensor-monitor
+    restart: unless-stopped
+    devices:
+      - "/dev/mem:/dev/mem"  # Required for GPIO access
+      - "/dev/gpiomem:/dev/gpiomem"
+    privileged: true  # Simplify GPIO access; in production drop specific capabilities
+    volumes:
+      - ./sensor-scripts:/opt/sensor-scripts
+      - ./sensor-data:/opt/sensor-data
+    environment:
+      - TZ=America/New_York
+      - SENSOR_TYPE=DHT22
+      - GPIO_PIN=4
+      - MQTT_BROKER=mosquitto.home.lab
+      - MQTT_TOPIC=sensors/environmental
+      - ALERT_THRESHOLD_TEMP_HIGH=30  # Celsius
+      - ALERT_THRESHOLD_TEMP_LOW=0   # Celsius
+      - ALERT_THRESHOLD_HUMIDITY_HIGH=80  # Percent
+      - ALERT_THRESHOLD_HUMIDITY_LOW=20   # Percent
+      - WEBHOOK_URL=http://alerts.home.lab/environmental  # For sending alerts to family chat
+    # The script will run continuously, reading sensors and sending alerts when thresholds exceeded.
+    # We'll use a simple Python script that loops.
+    command: ["python3", "/opt/sensor-scripts/monitor.py"]

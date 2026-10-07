@@ -1,0 +1,22 @@
+# Traefik Service
+# Reverse proxy with hot-reloading (watching for YAML changes in infra/traefik/dynamic/)
+
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Dashboard
+    volumes:
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/dynamic:/etc/traefik/dynamic
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - TZ=America/New_York
+    # Traefik watches the dynamic directory for changes and updates routers/services automatically.
+    # We'll rely on the file provider with watch=true.

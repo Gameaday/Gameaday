@@ -1,0 +1,29 @@
+# Communication Reliability Booster
+# Jitsi TURN/STUN server to improve grandparent video call quality
+
+version: '3.8'
+
+services:
+  turn:
+    image: coturn/coturn:latest
+    container_name: jitsi-turn
+    restart: unless-stopped
+    network_mode: host  # TURN needs host networking for proper UDP handling
+    environment:
+      - TZ=America/New_York
+      - LISTEN_PORT=3478
+      - LISTEN_IP=0.0.0.0
+      - RELAY_IP=0.0.0.0
+      - MIN_PORT=49152
+      - MAX_PORT=65535
+      - LOG_FILE=/var/log/turn.log
+      - VERBOSE=1
+      - NO_TLS=1  # Simplify for internal use; enable TLS with certs in production
+      - NO_SSL=1
+      - NO_DTLS=1
+    volumes:
+      - ./turn:/var/lib/turn
+      - ./turn/logs:/var/log
+    # Alternatively, we could run without host network and map ports, but host networking is simpler for TURN.
+    # For production, we'd need proper certificates and consider using a reverse proxy.
+    # For home use, this should suffice.

@@ -1,0 +1,16 @@
+# Dozzle Service
+# Container monitoring on each device
+
+version: '3.8'
+
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - TZ=America/New_York

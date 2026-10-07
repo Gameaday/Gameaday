@@ -1,0 +1,36 @@
+# Network Privacy & Efficiency Booster
+# Pi-hole equivalent network-wide ad/tracking blocker + local caching proxy (apt-cacher-ng)
+
+version: '3.8'
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pi-hole
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80"
+      - "443:443"
+    environment:
+      - TZ=America/New_York
+      - WEBPASSWORD=set_via_ui_or_secret  # In production, use Docker secret or external config
+      - DNS1=127.0.0.1
+      - DNS2=127.0.0.1
+    volumes:
+      - ./etc-pihole:/etc/pihole
+      - ./etc-dnsmasq.d:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN  # Required for Pi-hole networking
+
+  apt-cacher-ng:
+    image: sameersbn/apt-cacher-ng:latest
+    container_name: apt-cacher-ng
+    restart: unless-stopped
+    ports:
+      - "3142:3142"
+    volumes:
+      - ./apt-cacher-ng:/var/cache/apt-cacher-ng
+    environment:
+      - TZ=America/New_York
