@@ -31,8 +31,8 @@ about because it just works.
 | altair (Pi 4, 4 GB) | Reliability worker: apt-cacher-ng, site deploy/verify, photo queue (best-effort). |
 | vega (Pi 4, 2 GB) | Medical sites + Jitsi TURN/STUN. Tight RAM - single purpose. |
 | pi-zero-* | Environmental sensors (temp/humidity/leak). Alert-only. |
-| charon (ZenBook) | Media engine: Jellyfin with Intel QuickSync. On-demand, not 24/7. |
-| jade (Fractal Terra) | Adult workstation; occasional AI only, must not disrupt work. GPU accel unproven (AMD/Windows). |
+| charon (ZenBook) | Shared 24/7 node (memory-bound): Jellyfin (QuickSync) + webtop, typically one at a time. |
+| jade (Fractal Terra) | Adult workstation ONLY; NOT a network AI node for now (ADR 0003). |
 | methuselah (Synology) | Storage spine: snapshots, offsite archive, media + photos. |
 
 ## Target architecture (text)
@@ -47,10 +47,9 @@ No Pi-hole (Firewalla owns DNS/ad-block, ADR 0004). No local LLM (8 GB ARM canno
 **Workers** - altair caches packages and runs a best-effort photo queue; vega serves medical sites
 and TURN/STUN; Pi Zeroes are pure sensors. Each is small and single-purpose.
 
-**Media** - charon transcodes with QuickSync, on-demand to keep heat/power/noise down.
+**Media** - charon is a shared 24/7 node (memory-bound); QuickSync for Jellyfin. On-demand services typically one at a time (webtop day / Jellyfin evening) (ADR 0005).
 
-**AI (stretch, gated)** - jade only, occasional, non-disruptive. Gated on proving GPU
-acceleration works on AMD/Windows or on a future dedicated node (ADR 0003).
+**AI (stretch, gated)** - NOT on jade for now. Only very lightweight models on charon or a Pi; large models deferred (ADR 0003).
 
 **Family interface** - phones and old laptops. Alerts land in the family chat; everything else is
 invisible when healthy.

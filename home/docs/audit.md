@@ -69,13 +69,13 @@ internal consistency, truncation, dead/duplicated content, and realistic device 
 - **Operations covered**: `docs/runbooks/`.
 - **Migration path clear**: `docs/migration.md`.
 
-## Open Decisions Needed (owner input)
+## Decisions (resolved by owner)
 
-1. **Firewalla replacement**: target device/OS and timing (affects DNS/ad-block ownership).
-2. **Jade as occasional AI node**: confirm whether AMD GPU inference is worth pursuing, or wait for a dedicated Linux node.
-3. **Charon 24/7 or on-demand**: power/heat tradeoff for Jellyfin availability.
-4. **Dedicated `home` repo**: grant bot write access, or migrate on a local instance (chosen).
-5. **Photo pipeline**: Synology Photos vs Immich (affects "Immutable Memory Vault" implementation).
+1. **Firewalla replacement**: ~2028/2029, a ~10 GB gateway for future-proofing or at Purple EOL. Until then Purple owns DNS/ad-block (ADR 0004).
+2. **AI node**: jade is NOT used as a network AI node for now. Only very lightweight models on charon or a Pi; large models deferred (ADR 0003).
+3. **charon**: 24/7 server node, memory-bound. On-demand services typically one at a time (webtop day / Jellyfin evening). No process-heavy/memory-hungry service left on 24/7 (ADR 0005).
+4. **Dedicated home repo**: migrate later on a local instance; work continues here (migration.md).
+5. **Photo pipeline**: Synology Photos now (lowest friction). Evaluate Immich ~2030 with the open-source NAS move (ADR 0006).
 
 ## Conclusion
 

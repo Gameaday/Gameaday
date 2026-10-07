@@ -97,9 +97,9 @@ Rule: never build the stretch goal directly. Seed it with small changes that are
 - NOW seed: structured logging + metrics from all services (Phase 0)
 - NOW seed: machine-readable service metadata (extend service-catalog.md into JSON/YAML)
 - NOW seed: n8n deploy workflow + service templates (done, mockups)
-- LATER: local LLM on Jade/Fractal Terra (GPU) for NL -> compose generation
+- LATER: very lightweight models on charon/Pi for NL -> compose generation (jade is NOT a network AI node, ADR 0003)
 - LATER: feedback loop - services report usage/perf to improve future deploys
-- GATE: only when GPU idle capacity is real and reliable, not aspirational
+- GATE: large-model capability deferred until hardware/tooling mature
 
 ### 3.2 Full Home Automation
 - NOW seed: MQTT as common protocol; environmental sensors (Phase 1)

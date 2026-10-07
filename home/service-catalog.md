@@ -23,7 +23,7 @@
 ### 1. Immutable Memory Vault
 **Purpose**: Auto-backup family photos/videos to immutable storage
 **Description**: Phone → Synology → encrypted → Glacier Deep Archive
-**Requirements**: Synology Photos/Immich, Hyper Backup to Glacier
+**Requirements**: Synology Photos (now; Immich ~2030 per ADR 0006), Hyper Backup to Glacier
 **Benefits**: 
 - Saves: $9.99-$19.99/month (iCloud/Google Photos)
 - Privacy: Media stays home unless explicitly shared
@@ -36,7 +36,7 @@
 ### 2. Media Library Autonomy
 **Purpose**: Self-hosted media library to replace streaming subs
 **Description**: Jellyfin on Charon + auto-organization (HW accel)
-**Requirements**: Fractal Terra/Jade or Asus ZenBook for HW transcode, Synology, Filebot/Sonarr
+**Requirements**: charon (QuickSync) for HW transcode, Synology storage, Filebot/Sonarr
 **Benefits**:
 - Saves: $50-100+/month (multiple streaming subs)
 - Privacy: Viewing habits stay home
@@ -131,7 +131,7 @@
 ### 9. Creative Family Time Enabler
 **Purpose**: Family bonding via guided creative projects
 **Description**: Scheduled weekend AI-assisted projects; voice-cloned storytime
-**Requirements**: jade (GPU) at scheduled times, isolated environment, ethical voice consent
+**Requirements**: very lightweight models on charon/Pi (jade NOT used for now, ADR 0003), ethical voice consent
 **Benefits**:
 - Enhances: Bonding; preserves family voices
 - Privacy: Creative/voice data stays home

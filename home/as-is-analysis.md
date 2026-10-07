@@ -69,10 +69,10 @@ chores, using the hardware we already own. Every change must clear the Invisible
 ### Stretch goal (multi-year, seeded, gated)
 
 An AI-assisted lab where a plain-language request can produce a deployed service. This is
-**not** a phase objective (ADR 0003). It is seeded now with small, useful pieces:
-structured logging, machine-readable service metadata, templated deployments. It is gated on
-proving GPU-accelerated inference actually works on jade (AMD GPU on Windows/WSL2), or on a
-future dedicated node.
+**not** a phase objective (ADR 0003). It is seeded now with small, useful pieces: structured
+logging, machine-readable service metadata, templated deployments. For now only very
+lightweight models may run on the always-on charon or a Pi; jade is NOT a network AI node and
+large-model capability is deferred.
 
 ## Direction
 

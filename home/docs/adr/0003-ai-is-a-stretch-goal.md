@@ -35,3 +35,14 @@ not pay off is a net negative.
 - Building a mega-project before proving smaller value.
 - Services that require meticulous manual upkeep (the "grocery inventory" trap).
 - Chasing a shiny future feature at the expense of family time.
+
+## Decision update: where AI may run (owner input)
+
+- **jade is NOT used as a network AI node** for now. It is a daily-driver workstation and its AMD
+  GPU on Windows/WSL2 is not mature enough to depend on.
+- **Very lightweight models only** may run on the always-on **charon** or a **Pi** (small, bounded,
+  non-disruptive). Anything heavier is deferred.
+- **Large-model capability is deferred** until hardware and tooling mature (and possibly a future
+  dedicated Linux compute node).
+- Consequence: the AI stretch goal is fully decoupled from jade. If it happens, it starts small on
+  always-on hardware, not on the workstation.
