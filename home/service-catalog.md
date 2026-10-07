@@ -111,4 +111,82 @@
 - Flexibility: Auto format conversion for different devices
 **Implementation**: Phase 2
 - Headless: Yes (<5min/month oversight)
+
+## Tier 3: Experimental / High Effort (validate a hypothesis first)
+
+### 8. Learning & Development Helper
+**Purpose**: Age-appropriate, ad-free educational content for the kids
+**Description**: Curated educational videos/activities on old tablets, rotated weekly
+**Requirements**: Old tablets, content curation, automated rotation, network ad-block (Firewalla)
+**Benefits**:
+- Provides: Constructive screen time alternative
+- Privacy: No tracking of children's viewing
+- Reliability: Consistent, curated content
+- Time: Parents get breaks while kids learn
+**Implementation**: Phase 3
+- Headless: Yes (<5 min/month content refresh)
+- Success: Voluntary usage by children
+- **Hypothesis to validate**: kids actually choose it over alternatives
+
+### 9. Creative Family Time Enabler
+**Purpose**: Family bonding via guided creative projects
+**Description**: Scheduled weekend AI-assisted projects; voice-cloned storytime
+**Requirements**: jade (GPU) at scheduled times, isolated environment, ethical voice consent
+**Benefits**:
+- Enhances: Bonding; preserves family voices
+- Privacy: Creative/voice data stays home
+- Reliability: A recurring family ritual
+**Implementation**: Phase 3 (gated on GPU validation, ADR 0003)
+- Headless: Yes (adult-initiated, runs autonomously)
+- Success: Family participation
+- **Hypothesis to validate**: it is genuinely fun, not a chore
+
+### 10. Proactive Home Management
+**Purpose**: Predict/prevent issues from sensor trends
+**Description**: Predictive alerts; shift flexible loads off-peak
+**Requirements**: Sensor history (from Tier 1), trend analysis, smart plugs
+**Benefits**:
+- Prevents: Unexpected breakdowns
+- Saves: Energy, extends equipment life
+- Time: Planned maintenance instead of emergencies
+**Implementation**: Phase 3
+- Headless: Yes (<5 min/month review)
+- Success: Reduction in emergency incidents
+- **Hypothesis to validate**: predictions are actionable, not noise
+
+## Tier 4: Generally Avoid (unless a compelling family-specific reason appears)
+
+| Service | Why avoid | Alternative |
+|---------|-----------|-------------|
+| General game servers | Kids use established platforms with friends | Use those platforms |
+| Public-facing websites | Privacy risk > benefit | Private family journal |
+| Complex home automation | High maintenance, low reliability | Simple, purpose-specific automations |
+| Crypto/mining | Resource theft from family use | Invest directly if desired |
+| Anything needing constant attention | Violates zero-touch rule | Only truly autonomous services |
+| Kubernetes / heavy orchestration | Overhead >> benefit at this scale | Docker Compose + Arcane |
+| Bleeding-edge tech | Stability > novelty here | Proven solutions |
+| Manual-data-entry trackers (e.g. grocery inventory) | Glues everyone to an app; must save more time than it costs | Only if frictionless and provably time-positive |
+
+## Service Implementation Template
+
+### Service name
+- **Purpose (one sentence)**:
+- **Invisible Value Test**: time/money saved? cost removed? privacy? reliability? maintenance? failure impact? "so what?":
+- **Requirements**: hardware / software / config / dependencies:
+- **Target device** (from `docs/resources.md`):
+- **ARM64 image available?** (if Pi-bound):
+- **Headless operation** (yes/no + est. min/month):
+- **Success metric**:
+- **Failure mode / graceful degradation**:
+- **Phase**:
+- **Open questions**:
+
+## Next steps
+
+1. Do not build services before Phase 0 exit criteria are met (`docs/implementation-plan.md`).
+2. Start with the Tier 1 services, in the order the plan sets out.
+3. For each: fill the template, add compose + desired-state entry, follow
+   `docs/runbooks/add-a-service.md`.
+4. After ~2 weeks of real use, run the family check-in and keep/fix/kill.
+
 - Success: Time spent managing media library

@@ -1,0 +1,25 @@
+# Secrets - NEVER commit these
+*.secret
+*secret*
+!*.secret.example
+secrets/
+*.pem
+*.key
+.env
+.env.*
+
+# Runtime / state (belongs on hosts, not in Git)
+*-data/
+*cache*/
+logs/
+*.log
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Migration artifacts (temporary; drop after migrating to the dedicated repo)
+home-repo.bundle
+patches/

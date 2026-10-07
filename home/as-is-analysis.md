@@ -1,92 +1,82 @@
-# Home Lab As-Is Analysis & Direction
+# Home Lab - As-Is Analysis
 
-## Current State Summary
+Narrative snapshot of where we are today. For capacity/limits see `docs/resources.md`. For the
+plan see `docs/implementation-plan.md` (the single phase plan).
 
-**Network**: Fios → Firewalla Purple (FW/DHCP/Ad-block) → 2.5GB wired + ASUS XD5 WiFi 6
+## Context
 
-**Devices**:
-- Pi 5 (sirius): getArcane, Traefik, Filebrowser
-- Pi 4 4GB (altair): historylabs.dev site
-- Pi 4 2GB (vega): atlasofpelvicsurgery.org sites
-- Pi 3B+: Offline
-- Pi Zero 2W: Unused
-- Asus ZenBook (Charon): Jellyfin + webtop
-- Fractal Terra/Jade: AI testing/workstation (Windows)
-- Synology 1621+: Central storage
+- Two adults, both work from home. A 15-month-old son; a daughter due when he is ~19 months.
+- Family touch points are **phones and old laptops only**. All Linux boxes are **headless servers**.
+- Guiding belief: invest time up front to get more time back later. Anything that costs more time
+  than it returns is a net negative, even if it is technically impressive.
 
-**Software**: getArcane (orchestration), Traefik (proxy), Docker (Linux), Jellyfin (media), dozzle (monitoring), Git (profile site)
+## Network (as-is)
 
-**Key Assets Working**: 
-- GitHub for profile site
-- Traefik hot-reloading
-- Arcane API + update management
-- Jellyfin media server
-- Network ad-blocking (Firewalla)
+- Fios fiber -> **Firewalla Purple** (firewall, DHCP, VPN, DNS, ad-block).
+- 2.5 GB wired backbone; **ASUS XD5** WiFi 6 access points.
+- Planned (deferred): higher-throughput Firewalla replacement without external cloud management;
+  WiFi 8 APs when affordable. See ADR 0004.
 
-**Gaps to Address**:
-- No infrastructure-as-code in Git
-- No local LLM/ML pipeline
-- No service generation templates
-- Need GitHub write permissions for automation
-- Cross-architecture service compatibility (ARM vs x86)
+## Devices (as-is)
 
-## Goals (From Conversation)
+| Name | Device | Runs today |
+|------|--------|-----------|
+| sirius | Pi 5, 8 GB, ext SSD | getArcane, Traefik, Filebrowser |
+| altair | Pi 4, 4 GB, ext SSD | historylabs.dev (zensical; rebuilds on redeploy) |
+| vega | Pi 4, 2 GB, ext SSD | atlasofpelvicsurgery.org / .com / .net |
+| pi3b | Pi 3B+, SD | offline |
+| pi-zero-* | Pi Zero 2W x several | unused |
+| charon | Asus ZenBook Pro UX501vw, 16 GB, NVMe, Intel iGPU + Nvidia 960M | Jellyfin (media on Synology, cache/metadata local), webtop (shares iGPU with Jellyfin), idle Minecraft/Terraria containers |
+| jade | Fractal Terra: 9800X3D, 64 GB DDR5, AMD 9070 XT 16 GB, 800 W | Windows 11 daily driver (both adults), AI testing |
+| methuselah | Synology 1621+, 32 GB, 32 TB + 1 TB NVMe cache | Synology services only (restricted Docker) |
 
-**Primary Vision**: AI Lab Manager that turns conversational prompts into deployed services via GitOps, with self-auditing and personalized experiences.
+Also present: a Steam Machine (not suitable), assorted Arduino Unos.
 
-**Capabilities**:
-1. One-request service creation (AI → Git → Deploy)
-2. Conversational updates over time
-3. Auto-publish via Arcane/Traefik
-4. Idle-time self-auditing/improvement
-5. Idea board → specs/emails
-6. Git-based infrastructure versioning
+## Software (as-is)
 
-## Phased Implementation Plan
+- **getArcane** - management/orchestration dashboard, plus its own agent on every Linux host.
+- **Traefik** - reverse proxy with a hot-reload file provider (add a YAML, route appears).
+- **Filebrowser** - web file editor (used to edit Traefik files visually).
+- **Dozzle** - container log viewer on every Linux host.
+- **Jellyfin** - media server on charon.
+- **Docker** - on all Linux hosts; Synology Docker is restricted.
 
-**Phase 1 (Weeks 1-2)**: GitOps Foundation
-- Move infra configs to Git repo
-- Set up webhook for auto-deploy
-- Verify Arcane desired state sync
+## What already works in our favour
 
-**Phase 2 (Weeks 3-4)**: AI Orchestrator
-- Configure n8n for prompt→workflow
-- Build Prompt → Generate → Commit → Deploy flow
-- Add GitHub token auth
+- Traefik hot-reload (drop a file -> route live).
+- Arcane API + built-in container update management (**so no Watchtower**).
+- Jellyfin already deployed and functional.
+- Network-wide ad-blocking already handled by Firewalla (**so no Pi-hole needed**).
+- SSD storage on the Pis; large Synology pool; strong GPU on jade.
 
-**Phase 3 (Weeks 5-6)**: Service Templates
-- Mini-game template (Phaser.js)
-- Simple web service template (React/Node)
-- Test deployments
+## Gaps (what is missing)
 
-**Phase 4 (Weeks 7-8)**: Autonomous Auditing
-- Off-peak n8n cron jobs
-- Health/checks + improvement PRs
-- User review workflow
+- No infrastructure-as-code / desired state in Git (config is scattered).
+- No service templates or automated deployment path.
+- No backup **verification** process (backups may exist but are untested).
+- No observability (no uptime/health dashboard, no alerting).
+- GitHub automation cannot write to the intended dedicated repo from this sandbox (see `docs/migration.md`).
+- Mixed architectures (ARM64 Pis vs x86_64) - every Pi-bound image must have an ARM64 build.
 
-**Phase 5 (Weeks 9+)**: AI Model Integration
-- Local LLM on Fractal Terra/Jade
-- Offline-first with cloud fallback
-- Full prompt→game cycle
+## Goals
 
-## Next Immediate Steps
+### Primary goal (near term)
 
-1. Explore Arcane API endpoints
-2. Create `infra/` directory structure
-3. Test Traefik hot-reload mechanism
-4. Configure GitHub token for automation
-5. Build first n8n workflow (prompt→deploy)
+Make the home lab **pay back time**: improve reliability, privacy, and cost, and remove manual
+chores, using the hardware we already own. Every change must clear the Invisible Value Test
+(`service-catalog.md`).
 
-## Resource Allocation
+### Stretch goal (multi-year, seeded, gated)
 
-- **Orchestrator**: Pi 5 (sirius) - n8n
-- **LLM Inference**: Fractal Terra/Jade (Windows GPU)
-- **Traefik/Git**: Pi 5 (sirius) - central
-- **Asset Gen**: Fractal Terra/Jade (GPU) or cloud
-- **Deployment Targets**: All Pis + Asus zenbook
+An AI-assisted lab where a plain-language request can produce a deployed service. This is
+**not** a phase objective (ADR 0003). It is seeded now with small, useful pieces:
+structured logging, machine-readable service metadata, templated deployments. It is gated on
+proving GPU-accelerated inference actually works on jade (AMD GPU on Windows/WSL2), or on a
+future dedicated node.
 
-## Enablers Present
-✅ Traefik hot-folder  ✅ Arcane API  ✅ Git repo  ✅ Cross-device mgmt  ✅ SSD storage  ✅ Jellyfin deployed  ✅ Network ad-block  ✅ Arcane update mgmt
+## Direction
 
-## Roadblocks
-❌ Local LLM/ML  ❌ Service templates  ❌ Git write perms  ❌ Traefik→Arcane sync  ❌ ARM/x86 compat  ❌ Firewalla replacement path
+`Git -> desired-state.yaml -> Arcane sync -> Traefik route -> service live`.
+
+Full sequencing and exit criteria live in `docs/implementation-plan.md`. Do not add services
+before Phase 0 is complete.

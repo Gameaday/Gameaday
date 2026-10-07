@@ -1,0 +1,19 @@
+# Example Traefik dynamic route.
+# Copy this to <service-name>.yml and adjust. Traefik hot-reloads files in this directory.
+#
+# Keep services internal (*.home.lab). Do not expose publicly without a deliberate decision,
+# auth (Authelia), and an ADR.
+
+http:
+  routers:
+    example-service:
+      rule: "Host(`example.home.lab`)"
+      entryPoints:
+        - web
+      service: example-service
+
+  services:
+    example-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:3000"

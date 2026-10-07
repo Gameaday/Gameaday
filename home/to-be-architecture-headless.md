@@ -1,91 +1,71 @@
-# Home Lab "To Be" Architecture: Headless-First Design
+# To-Be Architecture (Headless-First)
 
-## Critical Clarification: All Linux Devices Are Headless Servers
+## The key fact
 
-All Raspberry Pi devices and Linux systems are headless servers (no monitors/keyboards/touchscreens). They form the "digital spine and nervous system" but are not family touch points.
+Every Linux box is a **headless server** - no monitor, keyboard, or touchscreen. They are the
+digital spine, not family touch points. The only things the family touches are **phones and old
+laptops**. So value must be delivered *invisibly*: things get faster, cheaper, more private, or
+more reliable without anyone logging into a server.
 
-Only device with regular physical interaction:
-- **Fractal Terra PC (Jade)**: Windows 11 PC (adult work/gaming/AI testing)
-- **Old laptops**: Used occasionally when needed
-- **Cell phones**: Adults' primary mobile devices
+## Core philosophy
 
-## Headless Hardware Role Re-Definition
+Headless services earn their place by improving **reliability, privacy, cost, or time** for the
+family - without requiring interaction with the servers. The best service is one nobody thinks
+about because it just works.
 
-### **Pi 5 (sirius)** - The Orchestration Brain
-- **Role**: Central automation hub (never touched directly)
-- **Current**: getArcane, Traefik, Filebrowser (all accessed remotely)
-- **To Be**: AI orchestrator (n8n), Local LLM endpoint, Automated backup verification, Network-wide ad/tracking blocker (Pi-hole equivalent)
-- **Access**: Only via SSH/Web UI from admin devices (laptops/phones)
-- **Family benefit**: More reliable network, fewer ads, automated maintenance
+## Guiding principles
 
-### **Pi 4 4GB (altair)** - The Reliability Worker
-- **Role**: Background processing and caching (never touched)
-- **Current**: Static site hosting (accessed via browsers on family devices)
-- **To Be**: Automated site deployment & verification system, Local caching proxy for updates/speed (apt-cacher-ng equivalent), Family photo processing queue (resize, backup, organize)
-- **Access**: Only via monitoring dashboards or API
-- **Family benefit**: Faster updates, reliable site availability, organized photos
+1. **Invisible value** - if family notices it at all, it is because it broke.
+2. **Privacy by architecture** - data stays home unless there is a compelling reason.
+3. **Replace recurring costs** - target subscriptions where a self-hosted equivalent is solid.
+4. **Reliability multiplier** - improve the services people actually use.
+5. **Zero-touch** - aim for <5 min/month maintenance, averaged.
+6. **Graceful degradation** - lab down does not mean family life disrupted.
+7. **Time-positive** - if it costs more time than it returns, it does not ship.
 
-### **Pi 4 2GB (vega)** - The Connection Enhancer
-- **Role**: Communication reliability booster (never touched directly)
-- **Current**: Static medical/info sites (accessed via browsers)
-- **To Be**: Jitsi Meet TURN/STUN server (improves grandparent video call quality), Automated site health checker & self-healer, Local DNS/cache for faster family site access
-- **Access**: Only via monitoring or when troubleshooting
-- **Family benefit**: More reliable video calls with grandparents, faster site loading
+## Device roles (target)
 
-### **Asus ZenBook Pro (Charon)** - The Media & Creative Engine
-- **Role**: Primary transcode/gaming/workstation (already has direct use)
-- **Current**: Jellyfin + webtop + occasional gaming
-- **To Be**: Hardware-accelerated Jellyfin (Intel QuickSync), Automated media library organization (filebot/sonarr/qbit combo), Weekend creative station (when adults choose to use it)
-- **Access**: Direct use when needed (already happens)
-- **Family benefit**: Smoother streaming (less buffering), organized media
+| Device | Role |
+|--------|------|
+| sirius (Pi 5, 8 GB) | Orchestration: Arcane, Traefik, Filebrowser, n8n, observability. **No Pi-hole, no LLM.** |
+| altair (Pi 4, 4 GB) | Reliability worker: apt-cacher-ng, site deploy/verify, photo queue (best-effort). |
+| vega (Pi 4, 2 GB) | Medical sites + Jitsi TURN/STUN. Tight RAM - single purpose. |
+| pi-zero-* | Environmental sensors (temp/humidity/leak). Alert-only. |
+| charon (ZenBook) | Media engine: Jellyfin with Intel QuickSync. On-demand, not 24/7. |
+| jade (Fractal Terra) | Adult workstation; occasional AI only, must not disrupt work. GPU accel unproven (AMD/Windows). |
+| methuselah (Synology) | Storage spine: snapshots, offsite archive, media + photos. |
 
-### **Fractal Terra PC (Jade)** - The AI & Creative Workstation
-- **Role**: Adult workstation + occasional AI/family creative time
-- **Current**: Windows 11 work/daily driver + AI testing
-- **To Be**: Weekend family AI time (scheduled blocks for creative projects), WSL2/Linux VM for server testing (isolated from Windows host), Automated backup verification & restore testing, Local AI model serving (when needed for orchestration)
-- **Access**: Direct adult use (unchanged) + scheduled family time
-- **Family benefit**: Protected Windows host, scheduled creative AI time
+## Target architecture (text)
 
-### **Synology 1621+** - The Autonomous Vault
-- **Role**: Always-on backup and media server (minimal direct interaction)
-- **Current**: Synology services only
-- **To Be**: Immutable backup target (Snapshots + S3 Glacier Deep Archive), Media library with automated organization, Surveillance station (only if actual security need demonstrated)
-- **Access**: Via Synology UI/apps or automated processes
-- **Family benefit**: Photos/videos safe forever, media just works
+**Storage spine** - Synology holds encrypted snapshots and the offsite archive, plus organized
+media and photos. Irreplaceable data must exist in 3 places (origin, Synology, offsite).
 
-### **Pi Zero 2W's** - The Environmental Monitors
-- **Role**: Pure sensors (zero direct interaction)
-- **Current**: Various unused
-- **To Be**: Temperature/humidity/air quality sensors in key locations, Door/window status monitors (security + energy efficiency), Leak detectors (under sinks, water heater, etc.)
-- **Access**: Only via alerts when something needs attention
-- **Family benefit**: Prevents damage, saves on utilities, early warnings
+**Orchestration** - sirius runs Arcane + Traefik + n8n and is where monitoring/alerting originate.
+No Pi-hole (Firewalla owns DNS/ad-block, ADR 0004). No local LLM (8 GB ARM cannot; see
+`docs/resources.md`).
 
-### **Pi 3B+** - Purposeful Retirement or Donation
-- **Current**: Offline
-- **To Be Options**: Environmental sensor node (if monitoring gaps exist), LoRa emergency comms (only if genuine rural/unstable power concerns), Donate to school/kids' STEM program (teaches next generation), Responsible e-waste recycling (if no clear purpose)
-- **NOT**: Kept "just in case" without specific, documented purpose
+**Workers** - altair caches packages and runs a best-effort photo queue; vega serves medical sites
+and TURN/STUN; Pi Zeroes are pure sensors. Each is small and single-purpose.
 
-## Final Architecture Summary (Headless View)
+**Media** - charon transcodes with QuickSync, on-demand to keep heat/power/noise down.
 
-```
-                           ┌──────────────────────┐
-                           │   Autonomous Vault   │
-                           │ (Synology 1621+)     │
-                           │ - Encrypted Backups  │
-                           │ - Glacier Archive    │
-                           │ - Media Library      │
-                           │ - Organized Photos   │
-                           └─────────┬────────────┘
-                                     │
-                    ┌────────────────▼────────────┐
-                    │       Silent Monitoring     │
-                    │ (Alerts only to family chat)│
-                    │                             │
-    ┌───────────────▼───────────────┐ ┌───────────────▼───────────────┐
-    │         Pi 5 (sirius)         │ │    Asus ZenBook (Charon)      │
-    │  Headless Orchestrator Brain  │ │  Media Transcoder Engine      │
-    │  - n8n workflow automation    │ │  - Hardware-accelerated Jellyfin│
-    │  - Network-wide ad/tracking   │ │  - Automated library organizer│
-    │    blocker (Pi-hole equiv)    │ │  - Weekend creative station   │
-    │  - Local LLM for orchestration│ │                                 │
-    │  - Automated backup verifier  │ └────────────…………………………………………………………………………………………………………………………………………………………………………………………………………………………………(truncated)
+**AI (stretch, gated)** - jade only, occasional, non-disruptive. Gated on proving GPU
+acceleration works on AMD/Windows or on a future dedicated node (ADR 0003).
+
+**Family interface** - phones and old laptops. Alerts land in the family chat; everything else is
+invisible when healthy.
+
+## Design rules
+
+1. Services are invisible when healthy; they surface only via actionable alerts.
+2. One management plane (Arcane), one proxy (Traefik) - ADR 0002.
+3. No service without clearing the Invisible Value Test (`service-catalog.md`).
+4. Nothing depends on the AI stretch goal.
+5. Every Pi-bound image must have an ARM64 build.
+
+## Relationship to other docs
+
+- Capacity/limits: `docs/resources.md`
+- Sequencing + exit criteria: `docs/implementation-plan.md`
+- Decisions: `docs/adr/`
+- Current state: `as-is-analysis.md`

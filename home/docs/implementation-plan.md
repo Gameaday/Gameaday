@@ -1,5 +1,38 @@
 # Home Lab Implementation Plan
 
+> **This is the single source of truth for sequencing.** Other docs describe state, capacity, or
+> services; they do not define phases. If something here conflicts with another doc, this wins -
+> fix the other doc.
+
+## Phase exit criteria (do not advance until met)
+
+**Phase 0 - Foundation**
+- [ ] All service configs live in Git; a change is made by commit only
+- [ ] `desired-state.yaml` exists and Arcane (or the sync script) reads it
+- [ ] A Git push reaches the deploy step (webhook or manual trigger) and a route goes live
+- [ ] Observability: a dashboard shows uptime/health for all running services
+- [ ] Alerting: failures reach the family chat
+- [ ] Backup verification runbook executed at least once end-to-end (sample restore succeeds)
+- [ ] Maintenance time measured and under budget for 2 consecutive weeks
+
+**Phase 1 - Core family protection**
+- [ ] Photo/video backup verified: 3-2-1 rule holds, weekly sample restore passes
+- [ ] Jellyfin HW-accelerated; media findable in seconds
+- [ ] Calls with grandparents measurably more reliable
+- [ ] At least one environmental sensor alerting correctly (and not crying wolf)
+
+**Phase 2 - Time & money savings**
+- [ ] At least one recurring subscription cancelled with no loss of function
+- [ ] Patching automated with working rollback
+- [ ] Media management needs <5 min/month
+
+**Phase 3 - Growth & enhancement**
+- [ ] Each new service passes the Invisible Value Test and the family check-in
+- [ ] AI stretch items only attempted if their gate (GPU validation) is passed
+
+Phased approach: improvements to existing services, new services, and long-term stretch goals. Core principle: every change must pay back more time than it costs, or deliver privacy/reliability/cost value family can feel.
+
+
 Phased approach: improvements to existing services, new services, and long-term stretch goals. Core principle: every change must pay back more time than it costs, or deliver privacy/reliability/cost value family can feel.
 
 ## 1. Improvements to Existing Services

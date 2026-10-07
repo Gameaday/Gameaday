@@ -1,61 +1,110 @@
 # Desired State of Home Lab Services
-# This file is read by Arcane (or a sync process) to know what services should be running
-# Each service corresponds to a docker-compose file in infra/services/
+#
+# Read by Arcane (or the sync script) to know what should be running and where.
+# Each `compose_file` is relative to infra/.
+#
+# Fields:
+#   name            - must match the compose file prefix and the Traefik route (if any)
+#   description     - one line, the family benefit
+#   compose_file    - path under infra/
+#   enabled         - false disables without deleting
+#   namespace       - logical grouping
+#   target_device   - device name from docs/resources.md
+#   update_strategy - rolling | none
+#   phase           - which plan phase introduces it
 
 services:
-  - name: immutable-memory-vault
-    description: "Auto-backup family photos/videos to Synology + Glacier"
-    compose_file: "services/immutable-memory-vault-compose.yml"
-    enabled: true
-    namespace: "home"
-    update_strategy: "rolling"
-
-  - name: network-privacy-efficiency-booster
-    description: "Pi-hole equivalent network-wide ad/tracking blocker + local caching proxy"
-    compose_file: "services/network-privacy-efficiency-booster-compose.yml"
-    enabled: true
-    namespace: "home"
-    update_strategy: "rolling"
-
-  - name: communication-reliability-booster
-    description: "Jitsi TURN/STUN server to improve grandparent video call quality"
-    compose_file: "services/communication-reliability-booster-compose.yml"
-    enabled: true
-    namespace: "home"
-    update_strategy: "rolling"
-
-  - name: environmental-early-warning
-    description: "Pi Zero W sensors for temp/humidity/water leak detection with alerts"
-    compose_file: "services/environmental-early-warning-compose.yml"
-    enabled: true
-    namespace: "home"
-    update_strategy: "rolling"
-
-# Existing services we want to ensure are running/maintained
-  - name: getarcane
-    description: "Orchestration and management dashboard"
-    compose_file: "services/getarcane-compose.yml"
-    enabled: true
-    namespace: "infra"
-    update_strategy: "none"  # Already managed by Arcane itself
-
+  # --- Infrastructure ---
   - name: traefik
-    description: "Reverse proxy with hot-reloading"
+    description: "Reverse proxy with hot-reload (single proxy, ADR 0002)"
     compose_file: "services/traefik-compose.yml"
     enabled: true
     namespace: "infra"
+    target_device: "sirius"
     update_strategy: "none"
+    phase: 0
 
-  - name: jellyfin
-    description: "Media streaming server"
-    compose_file: "services/jellyfin-compose.yml"
+  - name: getarcane
+    description: "Management/orchestration plane (single plane, ADR 0002)"
+    compose_file: "services/getarcane-compose.yml"
     enabled: true
-    namespace: "media"
-    update_strategy: "rolling"
+    namespace: "infra"
+    target_device: "sirius"
+    update_strategy: "none"
+    phase: 0
 
   - name: dozzle
-    description: "Container monitoring on each device"
+    description: "Container log viewer on every Linux host"
     compose_file: "services/dozzle-compose.yml"
     enabled: true
     namespace: "monitoring"
+    target_device: "all-linux"
     update_strategy: "rolling"
+    phase: 0
+
+  # --- Phase 1: core family protection ---
+  - name: immutable-memory-vault
+    description: "Verify and protect irreplaceable family photos/videos (Synology + Glacier)"
+    compose_file: "services/immutable-memory-vault-compose.yml"
+    enabled: true
+    namespace: "home"
+    target_device: "methuselah"
+    update_strategy: "rolling"
+    phase: 1
+
+  - name: communication-reliability-booster
+    description: "Jitsi TURN/STUN for reliable video calls with grandparents"
+    compose_file: "services/communication-reliability-booster-compose.yml"
+    enabled: true
+    namespace: "home"
+    target_device: "vega"
+    update_strategy: "rolling"
+    phase: 1
+
+  - name: environmental-early-warning
+    description: "Temp/humidity/leak sensors with actionable alerts only"
+    compose_file: "services/environmental-early-warning-compose.yml"
+    enabled: true
+    namespace: "home"
+    target_device: "pi-zero-*"
+    update_strategy: "rolling"
+    phase: 1
+
+  # --- Phase 0/2: efficiency ---
+  - name: network-cache
+    description: "Local package cache (apt-cacher-ng). NOT a DNS/ad-blocker - Firewalla owns that (ADR 0004)"
+    compose_file: "services/network-cache-compose.yml"
+    enabled: true
+    namespace: "home"
+    target_device: "altair"
+    update_strategy: "rolling"
+    phase: 0
+
+  # --- Media ---
+  - name: jellyfin
+    description: "Media server with Intel QuickSync (on-demand host)"
+    compose_file: "services/jellyfin-compose.yml"
+    enabled: true
+    namespace: "media"
+    target_device: "charon"
+    update_strategy: "rolling"
+    phase: 1
+
+  # --- Stretch (disabled until gated) ---
+  - name: shape-learning-game
+    description: "Stretch example: generated mini-game (AI stretch goal, ADR 0003)"
+    compose_file: "services/shape-learning-game-compose.yml"
+    enabled: false
+    namespace: "stretch"
+    target_device: "tbd"
+    update_strategy: "rolling"
+    phase: 3
+
+  - name: todo-dashboard
+    description: "Stretch example: generated dashboard (AI stretch goal, ADR 0003)"
+    compose_file: "services/todo-dashboard-compose.yml"
+    enabled: false
+    namespace: "stretch"
+    target_device: "tbd"
+    update_strategy: "rolling"
+    phase: 3

@@ -8,54 +8,54 @@
         "responseMode": "onReceived",
         "responseData": {
           "statusCode": 200,
-          "responseBody": "{\"status\": \"accepted\"}"
+          "responseBody": "accepted"
         }
       },
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
-      "position": [
-        250,
-        300
-      ]
+      "position": [250, 300]
     },
     {
       "parameters": {
-        "functionCode": "return [{ json: { service: $json.service || \"immutable-memory-vault\", action: $json.action || \"deploy\", timestamp: new Date().toISOString() } }];",
+        "functionCode": "const service = $json.service || 'immutable-memory-vault';\nconst action = $json.action || 'deploy';\nreturn [{ json: { service, action, timestamp: new Date().toISOString() } }];"
+      },
       "name": "Process Request",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
-      "position": [
-        450,
-        300
-      ]
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const s = $json.service;\nreturn [{ json: { service: s, note: 'TODO: render compose from template and commit to Git', target: 'infra/services/' + s + '-compose.yml' } }];"
+      },
+      "name": "Render Compose (placeholder)",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "return [{ json: { message: 'TODO: trigger Arcane sync for ' + $json.service } }];"
+      },
+      "name": "Trigger Sync (placeholder)",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [850, 300]
     }
   ],
   "connections": {
     "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Process Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Process Request", "type": "main", "index": 0 }]]
     },
     "Process Request": {
-      "main": [
-        [
-          {
-            "node": "Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Render Compose (placeholder)", "type": "main", "index": 0 }]]
+    },
+    "Render Compose (placeholder)": {
+      "main": [[{ "node": "Trigger Sync (placeholder)", "type": "main", "index": 0 }]]
     }
   },
   "active": false,
   "settings": {},
-  "id": "1"
+  "versionId": "00000000-0000-0000-0000-000000000001"
 }

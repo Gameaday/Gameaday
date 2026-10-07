@@ -1,0 +1,30 @@
+# network-cache
+# Target device: altair (Pi 4, 4 GB, ARM64)
+# Purpose: local package cache to speed up OS/package updates and cut bandwidth.
+#
+# NOTE: This is NOT a DNS or ad-blocker. Firewalla owns DNS + ad-blocking (ADR 0004).
+# Do not add Pi-hole here - it would duplicate the Firewalla and violate ADR 0002.
+
+version: '3.8'
+
+services:
+  apt-cacher-ng:
+    image: sameersbn/apt-cacher-ng:3.7.4-1   # pin; verify ARM64 availability
+    container_name: apt-cacher-ng
+    restart: unless-stopped
+    ports:
+      - "3142:3142"
+    volumes:
+      - apt-cacher-data:/var/cache/apt-cacher-ng
+    environment:
+      - TZ=America/New_York
+    networks:
+      - home-network
+
+volumes:
+  apt-cacher-data:
+    driver: local
+
+networks:
+  home-network:
+    driver: bridge
