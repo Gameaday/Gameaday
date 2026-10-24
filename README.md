@@ -1,35 +1,31 @@
-# 👋 Welcome to My GitHub Profile!
+# 👋 I'm Carl — I build tools you *own*.
 
-## 🎮 About Me
+Solo developer behind **Gameaday**: privacy-first, local-first apps with honest one-time pricing. No ads, no tracking, no subscriptions — and free tiers that genuinely work.
 
-I'm a passionate developer on a journey of continuous learning and creation! This profile is home to my collection of **games and applications** that I build to:
+## 🚀 What I'm building
 
-🚀 **Explore New Technologies** - Every project is an opportunity to dive into cutting-edge frameworks, languages, and tools
+| Project | What it is | Where it lives |
+|---|---|---|
+| 📚 **IA Helper** | Internet Archive companion — search 35M+ items, batch-download with rules, keep an offline library | Google Play (Android) · Flutter |
+| 🧹 **MediaMaid** | One-touch media organizer: rename, sort, and heal Jellyfin/Plex collections from your Stream Deck | Elgato Marketplace · TypeScript |
+| 🩺 **Stream Doctor** | Pre-flight checks for Twitch streamers — catch stream-killing problems before you go live | Windows · C#/WinUI 3 (design phase) |
+| ⚙️ **FrictionPoint** | Root-cause system diagnostics: not what's loaded — *why it hitched* | Rust, Raspberry Pi first (planned) |
+| 🎮 **TShock suite** | Havoc, Herald, Cerberus (+ Chronicle): turn a Terraria server into a show for Twitch viewers | C#/.NET · Terraria servers |
 
-🎯 **Learn by Doing** - I believe the best way to master something is to build with it
+## 🧭 How I build
 
-🎨 **Have Fun** - Coding should be enjoyable! I love experimenting with creative ideas and bringing them to life
+- **Own, don't rent** — one-time prices; subscriptions only where there's a real ongoing cost
+- **Privacy is a feature** — local-first storage, zero trackers, zero ad SDKs
+- **AI as construction crew** — used to build; never billed inside the product
+- **Ship small, keep it fun** — a side hustle, run as a marathon
 
-🌍 **Build Useful Multi-Platform Apps** - Creating applications that work across different platforms and provide real value to users
+## 📮 Reach me
 
-## 📱 Publishing Journey
-
-I'm actively working on publishing applications to various platforms, including:
-- 📲 **Google Play Store** - Bringing mobile experiences to Android users
-- 🌐 **Cross-Platform Solutions** - Building apps that work seamlessly across devices
-
-## 🛠️ What You'll Find Here
-
-This repository serves as my GitHub profile README, but my other repositories showcase:
-- 🎮 Game projects exploring game development frameworks
-- 📱 Mobile applications built with modern technologies
-- 🔧 Experimental projects testing new concepts
-- 💡 Tools and utilities that solve real-world problems
+- Email: `gameaday.project@gmail.com` · or open an issue on any repo
+- Website: [historylabs.dev](https://historylabs.dev) — archive tutorials and tools
 
 ---
 
-### 💻 Always Learning, Always Building
-
-Feel free to explore my repositories, and don't hesitate to reach out if you'd like to collaborate or chat about technology!
+### 💻 Always learning, always building
 
 ![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=Gameaday.Gameaday)
