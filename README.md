@@ -1,31 +1,26 @@
-# 👋 I'm Carl — I build tools you *own*.
+# Carl Nelson
 
-Solo developer behind **Gameaday**: privacy-first, local-first apps with honest one-time pricing. No ads, no tracking, no subscriptions — and free tiers that genuinely work.
+I build software you buy once and run on your own hardware. No ad SDKs, no trackers, and no subscriptions unless there's a real monthly cost behind one.
 
-## 🚀 What I'm building
+Solo developer behind **Gameaday**. Currently shipping two things: **IA Helper** to Google Play, and **MediaMaid** to the Elgato Marketplace.
 
-| Project | What it is | Where it lives |
-|---|---|---|
-| 📚 **IA Helper** | Internet Archive companion — search 35M+ items, batch-download with rules, keep an offline library | Google Play (Android) · Flutter |
-| 🧹 **MediaMaid** | One-touch media organizer: rename, sort, and heal Jellyfin/Plex collections from your Stream Deck | Elgato Marketplace · TypeScript |
-| 🩺 **Stream Doctor** | Pre-flight checks for Twitch streamers — catch stream-killing problems before you go live | Windows · C#/WinUI 3 (design phase) |
-| ⚙️ **FrictionPoint** | Root-cause system diagnostics: not what's loaded — *why it hitched* | Rust, Raspberry Pi first (planned) |
-| 🎮 **TShock suite** | Havoc, Herald, Cerberus (+ Chronicle): turn a Terraria server into a show for Twitch viewers | C#/.NET · Terraria servers |
+## Shipped & shipping
 
-## 🧭 How I build
+- **[IA Helper](https://github.com/Gameaday/ia-helper)** — Internet Archive client for Android. Search, filter, batch-download with rules, resume interrupted transfers, keep a library offline. *Flutter, heading to Google Play*
+- **[MediaMaid](https://github.com/Gameaday/Elagato-Media-Maid)** — Stream Deck plugin that renames, sorts, and repairs Jellyfin/Plex libraries. Dry-run preview and undo on every operation. *TypeScript, heading to the Elgato Marketplace*
+- **[TShock suite](https://github.com/Gameaday/TShock_Havoc)** — Havoc, Herald, Cerberus, Chronical: Terraria server plugins that connect live game state to Twitch and Discord. *C#/.NET*
+- **[Pixel Warrior Monsters](https://github.com/Gameaday/Pixel-Warrior-Monsters)** — open-source reimagining of Dragon Warrior Monsters, built for Android. *Kotlin*
+- **[Ephyra](https://github.com/Gameaday/Ephyra)** — free, open-source manga reader for Android. *Kotlin*
 
-- **Own, don't rent** — one-time prices; subscriptions only where there's a real ongoing cost
-- **Privacy is a feature** — local-first storage, zero trackers, zero ad SDKs
-- **AI as construction crew** — used to build; never billed inside the product
-- **Ship small, keep it fun** — a side hustle, run as a marathon
+## In progress
 
-## 📮 Reach me
+- **[Stream Doctor](https://github.com/Gameaday/Stream-Doctor)** — pre-flight checks for streamers: catch stream-killing problems before you go live. *C#/WinUI 3*
+- **[FrictionPoint](https://github.com/Gameaday/FrictionPoint)** — diagnostics that find what caused the hitch, not just what was loaded when it happened. *Rust, single-board computers first*
 
-- Email: `gameaday.project@gmail.com` · or open an issue on any repo
-- Website: [historylabs.dev](https://historylabs.dev) — archive tutorials and tools
+## Working with
 
----
+Dart/Flutter · Kotlin · TypeScript · C#/.NET · Rust · SQLite · Arduino · a lot of Terraria
 
-### 💻 Always learning, always building
+## Contact
 
-![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=Gameaday.Gameaday)
+[historylabs.dev](https://historylabs.dev) · [gameaday.project@gmail.com](mailto:gameaday.project@gmail.com) · open an issue on any repo — I read them all
